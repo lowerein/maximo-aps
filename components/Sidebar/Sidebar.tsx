@@ -2,7 +2,6 @@
 
 import { bubbleNodesAtom, viewerAtom, workOrdersAtom } from "@/stores/atoms";
 import { useAtomValue, useAtom } from "jotai";
-import { useEffect } from "react";
 import { getIdsByProperty } from "@/utils/viewer";
 import { WorkOrder } from "@/interface/WorkOrder";
 import data from "@/data/shaw.json";
