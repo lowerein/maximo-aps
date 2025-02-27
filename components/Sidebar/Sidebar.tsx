@@ -27,16 +27,20 @@ import data from "@/data/shaw.json";
 //   },
 // ];
 
-const WorkOrders: WorkOrder[] = data.member.map((d) => {
-  return {
-    location: d.location.location,
-    floor: d.location.ust_floor,
-    description: d.description,
-    statusdate: d.statusdate,
-    wonum: d.wonum,
-    ust_areacode: d.ust_areacode,
-  };
-});
+const WorkOrders: WorkOrder[] = data.member
+  .map((d) => {
+    return {
+      location: d.location.location,
+      floor: d.location.ust_floor,
+      description: d.description,
+      statusdate: d.statusdate,
+      wonum: d.wonum,
+      ust_areacode: d.ust_areacode,
+    };
+  })
+  .filter(
+    (d) => d.statusdate.startsWith("2025-") || d.statusdate.startsWith("2025-")
+  );
 
 const Sidebar = () => {
   const [workOrders, setWorkOrders] = useAtom(workOrdersAtom);
@@ -46,7 +50,25 @@ const Sidebar = () => {
   setWorkOrders(WorkOrders);
   const bubbleNodes = useAtomValue(bubbleNodesAtom);
   const viewer = useAtomValue(viewerAtom);
-  useEffect(() => {}, [bubbleNodes]);
+  //useEffect(() => {}, [bubbleNodes]);
+
+  console.log(bubbleNodes);
+
+  const getWorkOrderNumber = (
+    bubbleNode: Autodesk.Viewing.BubbleNode,
+    workOrders: WorkOrder[]
+  ) => {
+    let levelName = (bubbleNode.data as any).levelName;
+    if (levelName) {
+      if (levelName === "GF SFL") levelName = "G";
+      if (levelName === "1F SFL") levelName = "1";
+      if (levelName === "2F SFL") levelName = "2";
+      if (levelName === "RF SFL") levelName = "R";
+      if (levelName === "URF SFL") levelName = "R";
+
+      return workOrders.filter((wo) => wo.floor === levelName).length;
+    } else return 0;
+  };
 
   const clickHandler = (bubbleNode: Autodesk.Viewing.BubbleNode) => {
     if (null == viewer) return;
@@ -68,13 +90,12 @@ const Sidebar = () => {
         new Set(workOrders.map((workOrder) => workOrder.location))
       );
 
-      console.log(uniqueAreaCodes);
+      //console.log(uniqueAreaCodes);
 
       const ids = await getIdsByProperty(
         viewer,
         "COBie.Space.Name",
         uniqueAreaCodes
-
       );
 
       // console.log(uniqueAreaCodes);
@@ -91,6 +112,8 @@ const Sidebar = () => {
     <div className="w-full h-full">
       <div className="flex flex-col p-4 space-y-2">
         {bubbleNodes.map((bubbleNode) => {
+          const orderNumber = getWorkOrderNumber(bubbleNode, workOrders);
+
           return (
             <div
               key={bubbleNode.data.guid}
@@ -98,6 +121,9 @@ const Sidebar = () => {
               onClick={() => clickHandler(bubbleNode)}
             >
               {bubbleNode.data.name}
+              {orderNumber > 0 && (
+                <span className="text-red-500">({orderNumber})</span>
+              )}
             </div>
           );
         })}

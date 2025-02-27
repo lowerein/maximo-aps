@@ -1,27 +1,40 @@
 "use client";
 import { useAtomValue } from "jotai";
 import { roomIdAtom, workOrdersAtom } from "@/stores/atoms";
+import Link from "next/link";
 
 const Detailbar = () => {
   const roomId = useAtomValue(roomIdAtom);
   const workOrders = useAtomValue(workOrdersAtom);
-  const filteredWorkOrders = workOrders.filter(
-    (wo) => wo.ust_areacode === roomId
-  );
+  const filteredWorkOrders = workOrders.filter((wo) => wo.location === roomId);
 
   return (
-    <div className="p-4 h-full w-full flex flex-col space-y-2">
+    <div className="p-4 w-full flex flex-col space-y-2 overflow-y-scroll max-h-screen">
       <div className=" font-semibold">Work Order Details</div>
 
       {filteredWorkOrders?.length > 0 ? (
         <div className="w-full h-full flex flex-col space-y-2">
+          <div className="font-semibold">{filteredWorkOrders[0].location}</div>
+
           {filteredWorkOrders.map((workOrder, index) => {
             return (
-              <div key={"workOrder" + index} className="flex flex-col">
-                <div>{workOrder.wonum}</div>
-                <div>{workOrder.location}</div>
-                <div>{workOrder.floor}</div>
-                <div>{workOrder.description}</div>
+              <div
+                key={"workOrder" + index}
+                className="flex flex-col border p-2"
+              >
+                <div>WO: {workOrder.wonum}</div>
+                <div>Floor: {workOrder.floor}</div>
+                <div>Description: {workOrder.description}</div>
+                <Link
+                  className="text-blue-400 hover:text-blue-600"
+                  href={
+                    "https://maximo.ust.hk/maximo/ui/maximo.jsp?event=loadapp&value=wotrack&additionalevent=useqbe&additionaleventvalue=wonum=" +
+                    workOrder.wonum
+                  }
+                  target="_blank"
+                >
+                  View in Maximo
+                </Link>
               </div>
             );
           })}

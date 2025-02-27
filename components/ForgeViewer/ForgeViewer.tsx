@@ -42,21 +42,23 @@ const ForgeViewer = () => {
               new Set(workOrders.map((workOrder) => workOrder.location))
             );
 
-            //console.log(uniqueAreaCodes);
+            console.log(uniqueAreaCodes);
 
             if (event.dbIdArray?.length > 0) {
               const dbId = event.dbIdArray[0] as number;
-
-              console.log(dbId);
-
               viewer.model.getProperties(dbId, (result) => {
                 const property = result.properties.find(
                   (p) => p.displayName === "COBie.Space.Name"
                 );
                 const value = String(property?.displayValue);
 
+                console.log("HEY");
+                console.log(value);
+
+
+
                 if (uniqueAreaCodes.includes(value)) {
-                  //console.log("SSS");
+                  console.log("SSS");
                   setRoomId(value);
                 }
               });
