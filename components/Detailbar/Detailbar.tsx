@@ -23,6 +23,7 @@ const Detailbar = () => {
                 className="flex flex-col border p-2"
               >
                 <div>WO: {workOrder.wonum}</div>
+                <div>Created by: {workOrder.createdBy}</div>
                 <div>Status: {workOrder.status}</div>
                 <div>Floor: {workOrder.floor}</div>
                 <div>Description: {workOrder.description}</div>

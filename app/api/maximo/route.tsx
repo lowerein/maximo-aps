@@ -15,6 +15,7 @@ export async function GET() {
       ust_areacode: any;
       description: any;
       statusdate: any;
+      ust_createdby: any;
       wonum: any;
     }) => {
       return {
@@ -25,6 +26,7 @@ export async function GET() {
         description: d.description,
         statusdate: d.statusdate,
         wonum: d.wonum,
+        createdBy: d.ust_createdby,
       };
     }
   );

@@ -6,4 +6,5 @@ export interface WorkOrder {
     statusdate:string;
     floor?:string;
     status:string;
+    createdBy?:string;
   }
