@@ -5,4 +5,5 @@ export interface WorkOrder {
     location: string;
     statusdate:string;
     floor?:string;
+    status:string;
   }

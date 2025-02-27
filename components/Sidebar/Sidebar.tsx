@@ -3,55 +3,23 @@
 import { bubbleNodesAtom, viewerAtom, workOrdersAtom } from "@/stores/atoms";
 import { useAtomValue, useAtom } from "jotai";
 import { getIdsByProperty } from "@/utils/viewer";
+import { useEffect } from "react";
 import { WorkOrder } from "@/interface/WorkOrder";
-import data from "@/data/shaw.json";
-
-// const WorkOrders: WorkOrder[] = [
-//   {
-//     location: "WSC",
-//     ust_areacode: "SAR221",
-//     description: "The A/C is dripping water in master bedroom.",
-//   },
-//   {
-//     location: "WSC",
-//     ust_areacode: "R2-XX Lecture Room 23A",
-//   },
-//   {
-//     location: "WSC",
-//     ust_areacode: "R2-XX Air Duct",
-//   },
-//   {
-//     location: "WSC",
-//     ust_areacode: "R2-21 Lecture Room 27",
-//   },
-// ];
-
-const WorkOrders: WorkOrder[] = data.member
-  .map((d) => {
-    return {
-      location: d.location.location,
-      floor: d.location.ust_floor,
-      description: d.description,
-      statusdate: d.statusdate,
-      wonum: d.wonum,
-      ust_areacode: d.ust_areacode,
-    };
-  })
-  .filter(
-    (d) => d.statusdate.startsWith("2025-") || d.statusdate.startsWith("2025-")
-  );
 
 const Sidebar = () => {
   const [workOrders, setWorkOrders] = useAtom(workOrdersAtom);
-
-  //console.log(WorkOrders[0]);
-
-  setWorkOrders(WorkOrders);
   const bubbleNodes = useAtomValue(bubbleNodesAtom);
   const viewer = useAtomValue(viewerAtom);
-  //useEffect(() => {}, [bubbleNodes]);
 
-  console.log(bubbleNodes);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/maximo");
+      const workOrders = await response.json();
+      setWorkOrders(workOrders);
+    };
+
+    fetchData();
+  }, []);
 
   const getWorkOrderNumber = (
     bubbleNode: Autodesk.Viewing.BubbleNode,
@@ -98,7 +66,7 @@ const Sidebar = () => {
       );
 
       // console.log(uniqueAreaCodes);
-      console.log("interest", ids);
+      //console.log("interest", ids);
 
       ids.map((id) => {
         viewer.show(id);
@@ -112,7 +80,6 @@ const Sidebar = () => {
       <div className="flex flex-col p-4 space-y-2">
         {bubbleNodes.map((bubbleNode) => {
           const orderNumber = getWorkOrderNumber(bubbleNode, workOrders);
-
           return (
             <div
               key={bubbleNode.data.guid}

@@ -23,12 +23,13 @@ const Detailbar = () => {
                 className="flex flex-col border p-2"
               >
                 <div>WO: {workOrder.wonum}</div>
+                <div>Status: {workOrder.status}</div>
                 <div>Floor: {workOrder.floor}</div>
                 <div>Description: {workOrder.description}</div>
                 <Link
-                  className="text-blue-400 hover:text-blue-600"
+                  className="text-blue-400 hover:text-blue-600 pt-4"
                   href={
-                    "https://maximo.ust.hk/maximo/ui/maximo.jsp?event=loadapp&value=wotrack&additionalevent=useqbe&additionaleventvalue=wonum=" +
+                    "https://admmd7.ust.hk/maximo/ui/maximo.jsp?event=loadapp&value=wotrack&additionalevent=useqbe&additionaleventvalue=wonum=" +
                     workOrder.wonum
                   }
                   target="_blank"

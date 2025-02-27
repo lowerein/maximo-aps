@@ -1,28 +1,33 @@
-import { NextResponse} from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const formData = new URLSearchParams();
-  formData.append("j_username", "tungnilo");
-  formData.append("j_password", "xxxxxx");
+  const response = await fetch(
+    'https://admmd7.ust.hk/maximo/api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.ust_tower="SHAW"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=b49ps2viun88ukjp231hktlcmi12h1v11jcubrrv'
+  );
 
-  await fetch(
-    "https://maximo.ust.hk/maximo/j_security_check?event=loadapp&value=startcntr&login=true&j_username=tungnilo&j_password=ax",
-    { method: "POST", credentials: "include" }
-  )
-    .then((response) => {
-      const cookie = response.headers.get("Set-cookie");
-        console.log(cookie);
+  if (!response.ok) return NextResponse.json({ message: "error" });
 
-      return fetch(
-        "https://maximo.ust.hk/maximo/oslc/os/mxwodetail?oslc.pageSize=10&oslc.select=location,ust_createdby,ownergroup,status,description,ust_areacode,statusdate",
-        {
-          method: "GET",
-          headers: { cookie: cookie! },
-        }
-      );
-    })
-    .then((response) => response.text())
-    .then((data) => console.log(data.length));
+  const data = await response.json();
+  const members = data["member"].map(
+    (d: {
+      status: any;
+      location: { location: any; ust_floor: any };
+      ust_areacode: any;
+      description: any;
+      statusdate: any;
+      wonum: any;
+    }) => {
+      return {
+        status: d.status,
+        location: d.location.location,
+        floor: d.location.ust_floor,
+        ust_areacode: d.ust_areacode,
+        description: d.description,
+        statusdate: d.statusdate,
+        wonum: d.wonum,
+      };
+    }
+  );
 
-  return NextResponse.json({ message: "ok" });
+  return NextResponse.json(members);
 }

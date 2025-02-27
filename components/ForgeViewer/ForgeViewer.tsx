@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { initViewer, loadModel } from "@/utils/viewer";
 import { useAtom, useAtomValue } from "jotai";
 import {
@@ -9,14 +9,16 @@ import {
   bubbleNodesAtom,
   workOrdersAtom,
   roomIdAtom,
+  dbIdAtom,
 } from "@/stores/atoms";
 
 const ForgeViewer = () => {
   const viewerRef = useRef<HTMLDivElement>(null);
-  const [, setViewer] = useAtom(viewerAtom);
+  const [viewer, setViewer] = useAtom(viewerAtom);
   const [, setBubbleNodes] = useAtom(bubbleNodesAtom);
   const workOrders = useAtomValue(workOrdersAtom);
   const [, setRoomId] = useAtom(roomIdAtom);
+  const [dbId, setDbId] = useAtom(dbIdAtom);
 
   // load viewer
   const onPageLoaded = async () => {
@@ -34,36 +36,8 @@ const ForgeViewer = () => {
       viewer.addEventListener(
         Autodesk.Viewing.SELECTION_CHANGED_EVENT,
         (event) => {
-          
-          const doc = viewer.model.getDocumentNode().getDocument();
-          setRoomId(null);
-          if (doc) {
-            const uniqueAreaCodes = Array.from(
-              new Set(workOrders.map((workOrder) => workOrder.location))
-            );
-
-            //console.log(uniqueAreaCodes);
-
-            if (event.dbIdArray?.length > 0) {
-              const dbId = event.dbIdArray[0] as number;
-              viewer.model.getProperties(dbId, (result) => {
-                const property = result.properties.find(
-                  (p) => p.displayName === "COBie.Space.Name"
-                );
-                const value = String(property?.displayValue);
-
-                // console.log("HEY");
-                // console.log(value);
-
-
-
-                if (uniqueAreaCodes.includes(value)) {
-                  //console.log("SSS");
-                  setRoomId(value);
-                }
-              });
-            }
-          }
+          if (event.dbIdArray?.length > 0) setDbId(event.dbIdArray[0]);
+          else setDbId(null);
         }
       );
 
@@ -75,6 +49,34 @@ const ForgeViewer = () => {
       });
     });
   };
+
+  useEffect(() => {
+    //console.log(workOrders);
+
+    if (!viewer) return;
+    if (!dbId) return;
+
+    const doc = viewer.model.getDocumentNode().getDocument();
+    if (!doc) return;
+
+    const uniqueAreaCodes = Array.from(
+      new Set(workOrders.map((workOrder) => workOrder.location))
+    );
+
+    //console.log(uniqueAreaCodes);
+
+    viewer.model.getProperties(dbId, (result) => {
+      const property = result.properties.find(
+        (p) => p.displayName === "COBie.Space.Name"
+      );
+      const value = String(property?.displayValue);
+
+      if (uniqueAreaCodes.includes(value)) {
+        //console.log("SSS");
+        setRoomId(value);
+      }
+    });
+  }, [dbId]);
 
   return (
     <>
