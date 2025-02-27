@@ -45,8 +45,7 @@ export const getIdsByProperty = async (
       let result: number[] = [];
       var attrIdMass = -1;
 
-
-      console.log(tag.property, tag.values);
+      //console.log(tag.property, tag.values);
 
       pdb.enumAttributes(function (
         i: number,
