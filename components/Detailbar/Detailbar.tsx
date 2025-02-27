@@ -9,7 +9,7 @@ const Detailbar = () => {
   const filteredWorkOrders = workOrders.filter((wo) => wo.location === roomId);
 
   return (
-    <div className="p-4 w-full flex flex-col space-y-2 overflow-y-scroll max-h-screen">
+    <div className="p-4 w-full flex flex-col space-y-2 overflow-y-auto max-h-screen">
       <div className=" font-semibold">Work Order Details</div>
 
       {filteredWorkOrders?.length > 0 ? (

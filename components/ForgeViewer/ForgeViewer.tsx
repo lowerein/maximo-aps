@@ -42,7 +42,7 @@ const ForgeViewer = () => {
               new Set(workOrders.map((workOrder) => workOrder.location))
             );
 
-            console.log(uniqueAreaCodes);
+            //console.log(uniqueAreaCodes);
 
             if (event.dbIdArray?.length > 0) {
               const dbId = event.dbIdArray[0] as number;
@@ -52,13 +52,13 @@ const ForgeViewer = () => {
                 );
                 const value = String(property?.displayValue);
 
-                console.log("HEY");
-                console.log(value);
+                // console.log("HEY");
+                // console.log(value);
 
 
 
                 if (uniqueAreaCodes.includes(value)) {
-                  console.log("SSS");
+                  //console.log("SSS");
                   setRoomId(value);
                 }
               });
