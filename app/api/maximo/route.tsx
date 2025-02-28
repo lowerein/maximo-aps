@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const response = await fetch(
-    'https://admmd7.ust.hk/maximo/api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.ust_tower="SHAW"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=b49ps2viun88ukjp231hktlcmi12h1v11jcubrrv'
+    'https://maximo.ust.hk/maximo/api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.ust_tower="SHAW"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=5vicoipi6j1mhbgtj3ev19soojd771hspl5qj57e'
   );
 
   if (!response.ok) return NextResponse.json({ message: "error" });
@@ -30,6 +30,6 @@ export async function GET() {
       };
     }
   );
-
+  
   return NextResponse.json(members);
 }
