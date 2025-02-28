@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const response = await fetch(
-    'https://maximo.ust.hk/maximo/api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.ust_tower="SHAW"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=5vicoipi6j1mhbgtj3ev19soojd771hspl5qj57e'
+    `${process.env.API_URL}api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.ust_tower="SHAW"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=${process.env.API_KEY}`
   );
 
   if (!response.ok) return NextResponse.json({ message: "error" });

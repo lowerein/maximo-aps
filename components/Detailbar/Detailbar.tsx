@@ -30,7 +30,7 @@ const Detailbar = () => {
                 <Link
                   className="text-blue-400 hover:text-blue-600 pt-4"
                   href={
-                    "https://admmd7.ust.hk/maximo/ui/maximo.jsp?event=loadapp&value=wotrack&additionalevent=useqbe&additionaleventvalue=wonum=" +
+                    "https://maximo.ust.hk/maximo/ui/maximo.jsp?event=loadapp&value=wotrack&additionalevent=useqbe&additionaleventvalue=wonum=" +
                     workOrder.wonum
                   }
                   target="_blank"
