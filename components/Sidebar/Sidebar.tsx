@@ -33,6 +33,9 @@ const Sidebar = () => {
       if (levelName === "RF SFL") levelName = "R";
       if (levelName === "URF SFL") levelName = "R";
 
+      if (levelName.includes("/F"))
+        levelName = (levelName as string).replace("/F", "");
+
       return workOrders.filter((wo) => wo.floor === levelName).length;
     } else return 0;
   };
@@ -54,7 +57,9 @@ const Sidebar = () => {
 
       // if rooms is good then show it
       const uniqueAreaCodes = Array.from(
-        new Set(workOrders.map((workOrder) => workOrder.location))
+        new Set(
+          workOrders.map((workOrder) => workOrder.location.replace("UST", ""))
+        )
       );
 
       //console.log(uniqueAreaCodes);

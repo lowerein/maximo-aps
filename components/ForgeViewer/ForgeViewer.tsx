@@ -69,7 +69,7 @@ const ForgeViewer = () => {
       const property = result.properties.find(
         (p) => p.displayName === "COBie.Space.Name"
       );
-      const value = String(property?.displayValue);
+      const value = "UST" + String(property?.displayValue);
 
       if (uniqueAreaCodes.includes(value)) {
         //console.log("SSS");

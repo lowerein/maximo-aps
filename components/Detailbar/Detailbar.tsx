@@ -6,7 +6,9 @@ import Link from "next/link";
 const Detailbar = () => {
   const roomId = useAtomValue(roomIdAtom);
   const workOrders = useAtomValue(workOrdersAtom);
-  const filteredWorkOrders = workOrders.filter((wo) => wo.location === roomId);
+  const filteredWorkOrders = workOrders.filter(
+    (wo) => wo.location === roomId
+  );
 
   return (
     <div className="p-4 w-full flex flex-col space-y-2 overflow-y-auto max-h-screen">
