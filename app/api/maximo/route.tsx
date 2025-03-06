@@ -6,7 +6,7 @@ export async function GET() {
   // );
 
   const response = await fetch(
-    `${process.env.API_URL}api/os/mxwodetail?lean=1&oslc.pageSize=500&oslc.where=location.location="UST%25"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=${process.env.API_KEY}`
+    `${process.env.API_URL}api/os/mxwodetail?lean=1&oslc.pageSize=200&oslc.where=location.location="UST%25"&oslc.select=location.description,ust_createdby,ownergroup,status,description,ust_areacode,statusdate,wonum,location,location.ust_tower,location.ust_floor,location.location&oslc.orderBy=-statusdate&apikey=${process.env.API_KEY}`
   );
 
   if (!response.ok) return NextResponse.json({ message: "error" });
