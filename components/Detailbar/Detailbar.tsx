@@ -29,12 +29,15 @@ const Detailbar = () => {
                 {workOrder.reportedby && (
                   <div>Reported by: {workOrder.reportedby}</div>
                 )}
-                <div>Date: {workOrder.reportdate}</div>
-                <div>Email: {workOrder.email}</div>
-                <div>Phone: {workOrder.phone}</div>
+                <div>Report Date: {workOrder.reportdate}</div>
+                <div>Status Date: {workOrder.statusdate}<div>
+                {workOrder.email && <div>Email: {workOrder.email}</div>}
+                {workOrder.phone && <div>Phone: {workOrder.phone}</div>}
                 <div>Status: {workOrder.status}</div>
                 <div>Owner Group: {workOrder.ownergroup}</div>
-                <div>DRS: {workOrder.origrecordid}</div>
+                {workOrder.origrecordid && (
+                  <div>DRS: {workOrder.origrecordid}</div>
+                )}
                 <div>Description: {workOrder.description}</div>
                 <Link
                   className="text-blue-400 hover:text-blue-600 pt-4"
