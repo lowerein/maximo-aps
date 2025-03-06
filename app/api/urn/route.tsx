@@ -7,6 +7,6 @@ export async function GET() {
 
   //console.log(objects);
 
-  const urn = urnify(objects[0].objectId);
+  const urn = urnify(objects[1].objectId);
   return NextResponse.json({urn});
 }
