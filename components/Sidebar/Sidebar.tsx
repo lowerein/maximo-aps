@@ -40,6 +40,18 @@ const Sidebar = () => {
     } else return 0;
   };
 
+  const getPropertyAsync = (id: number, property: string) => {
+    return new Promise((resolve, reject) => {
+      if (null == viewer) return;
+      viewer.getProperties(id, (result) => {
+        const value = result.properties.find(
+          (p) => p.displayName == property
+        )?.displayValue;
+        resolve(value);
+      });
+    });
+  };
+
   const clickHandler = (bubbleNode: Autodesk.Viewing.BubbleNode) => {
     if (null == viewer) return;
     const doc = viewer?.model.getDocumentNode().getDocument();
@@ -56,6 +68,7 @@ const Sidebar = () => {
       //viewer.hide(roomIds);
 
       // if rooms is good then show it
+      const statuses = ["INPRG", "COMP", "CLOSE", "ACONT", "WHDL"];
       const uniqueAreaCodes = Array.from(
         new Set(
           workOrders.map((workOrder) => workOrder.location.replace("UST", ""))
@@ -73,9 +86,17 @@ const Sidebar = () => {
       // console.log(uniqueAreaCodes);
       //console.log("interest", ids);
 
-      ids.map((id) => {
+      ids.map(async (id) => {
         viewer.show(id);
-        viewer.setThemingColor(id, new THREE.Vector4(1, 0, 0, 0.7));
+
+        const roomId = await getPropertyAsync(id, "COBie.Space.Name");
+        const status = workOrders.find(
+          (wo) => wo.location === "UST" + roomId
+        )?.status;
+
+        if (status === "INPRG" || status === "WHDL")
+          viewer.setThemingColor(id, new THREE.Vector4(1, 0, 0, 0.7));
+        else viewer.setThemingColor(id, new THREE.Vector4(0, 1, 0, 0.7));
       });
     });
   };

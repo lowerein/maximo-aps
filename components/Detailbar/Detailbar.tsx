@@ -26,6 +26,7 @@ const Detailbar = () => {
               >
                 <div>WO: {workOrder.wonum}</div>
                 <div>Created by: {workOrder.createdBy}</div>
+                <div>Date: {workOrder.statusdate}</div>
                 <div>Status: {workOrder.status}</div>
                 <div>Floor: {workOrder.floor}</div>
                 <div>Description: {workOrder.description}</div>
