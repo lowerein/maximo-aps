@@ -29,8 +29,9 @@ const Detailbar = () => {
                 {workOrder.reportedby && (
                   <div>Reported by: {workOrder.reportedby}</div>
                 )}
+
                 <div>Report Date: {workOrder.reportdate}</div>
-                <div>Status Date: {workOrder.statusdate}<div>
+                <div>Status Date: {workOrder.statusdate}</div>
                 {workOrder.email && <div>Email: {workOrder.email}</div>}
                 {workOrder.phone && <div>Phone: {workOrder.phone}</div>}
                 <div>Status: {workOrder.status}</div>
