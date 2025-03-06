@@ -35,7 +35,7 @@ const Sidebar = () => {
 
       if (levelName.includes("/F"))
         levelName = (levelName as string).replace("/F", "");
-
+  
       return workOrders.filter((wo) => wo.floor === levelName).length;
     } else return 0;
   };
