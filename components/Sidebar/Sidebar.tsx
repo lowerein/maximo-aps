@@ -41,7 +41,7 @@ const Sidebar = () => {
   };
 
   const getPropertyAsync = (id: number, property: string) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve ) => {
       if (null == viewer) return;
       viewer.getProperties(id, (result) => {
         const value = result.properties.find(
@@ -68,7 +68,6 @@ const Sidebar = () => {
       //viewer.hide(roomIds);
 
       // if rooms is good then show it
-      const statuses = ["INPRG", "COMP", "CLOSE", "ACONT", "WHDL"];
       const uniqueAreaCodes = Array.from(
         new Set(
           workOrders.map((workOrder) => workOrder.location.replace("UST", ""))
