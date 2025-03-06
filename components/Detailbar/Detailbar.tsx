@@ -6,9 +6,7 @@ import Link from "next/link";
 const Detailbar = () => {
   const roomId = useAtomValue(roomIdAtom);
   const workOrders = useAtomValue(workOrdersAtom);
-  const filteredWorkOrders = workOrders.filter(
-    (wo) => wo.location === roomId
-  );
+  const filteredWorkOrders = workOrders.filter((wo) => wo.location === roomId);
 
   return (
     <div className="p-4 w-full flex flex-col space-y-2 overflow-y-auto max-h-screen">
@@ -25,10 +23,18 @@ const Detailbar = () => {
                 className="flex flex-col border p-2"
               >
                 <div>WO: {workOrder.wonum}</div>
-                <div>Created by: {workOrder.createdBy}</div>
-                <div>Date: {workOrder.statusdate}</div>
+                {workOrder.createdBy && (
+                  <div>Created by: {workOrder.createdBy}</div>
+                )}
+                {workOrder.reportedby && (
+                  <div>Reported by: {workOrder.reportedby}</div>
+                )}
+                <div>Date: {workOrder.reportdate}</div>
+                <div>Email: {workOrder.email}</div>
+                <div>Phone: {workOrder.phone}</div>
                 <div>Status: {workOrder.status}</div>
-                <div>Floor: {workOrder.floor}</div>
+                <div>Owner Group: {workOrder.ownergroup}</div>
+                <div>DRS: {workOrder.origrecordid}</div>
                 <div>Description: {workOrder.description}</div>
                 <Link
                   className="text-blue-400 hover:text-blue-600 pt-4"
