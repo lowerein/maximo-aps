@@ -35,13 +35,13 @@ const Sidebar = () => {
 
       if (levelName.includes("/F"))
         levelName = (levelName as string).replace("/F", "");
-  
+
       return workOrders.filter((wo) => wo.floor === levelName).length;
     } else return 0;
   };
 
   const getPropertyAsync = (id: number, property: string) => {
-    return new Promise((resolve ) => {
+    return new Promise((resolve) => {
       if (null == viewer) return;
       viewer.getProperties(id, (result) => {
         const value = result.properties.find(
@@ -101,8 +101,9 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full flex flex-col justify-between">
       <div className="flex flex-col p-4 space-y-2">
+        <div className="font-semibold">Select Buildings and Floors:</div>
         {bubbleNodes.map((bubbleNode) => {
           const orderNumber = getWorkOrderNumber(bubbleNode, workOrders);
           return (
@@ -118,6 +119,11 @@ const Sidebar = () => {
             </div>
           );
         })}
+      </div>
+
+      <div className="w-full flex flex-row space-x-2 m-4">
+        <div>Search:</div>
+        <input type="text" className="border w-full"></input>
       </div>
     </div>
   );
